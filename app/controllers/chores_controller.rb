@@ -4,21 +4,44 @@ class ChoresController < ApplicationController
   # GET /chores
   # GET /chores.json
   def index
+    @chore = Chore.new
     @chores = Chore.all
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
+
   end
 
   # GET /chores/1
   # GET /chores/1.json
   def show
+
+    @chore = Chore.find(params[:id])    
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # GET /chores/new
   def new
     @chore = Chore.new
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # GET /chores/1/edit
   def edit
+    @chore = Chore.find(params[:id])
+    respond_to do |format|
+      format.html 
+      format.js
+    end
   end
 
   # POST /chores
@@ -29,10 +52,9 @@ class ChoresController < ApplicationController
     respond_to do |format|
       if @chore.save
         format.html { redirect_to @chore, notice: 'Chore was successfully created.' }
-        format.json { render :show, status: :created, location: @chore }
+        format.js
       else
-        format.html { render :new }
-        format.json { render json: @chore.errors, status: :unprocessable_entity }
+        format.html { render :action => "new" }
       end
     end
   end
@@ -41,12 +63,11 @@ class ChoresController < ApplicationController
   # PATCH/PUT /chores/1.json
   def update
     respond_to do |format|
-      if @chore.update(chore_params)
-        format.html { redirect_to @chore, notice: 'Chore was successfully updated.' }
-        format.json { render :show, status: :ok, location: @chore }
+      if @chore.update_attributes(params[:chore])
+        format.html { redirect_to@chore, notice: 'Chore was successfully updated.' }
+        format.js
       else
-        format.html { render :edit }
-        format.json { render json: @chore.errors, status: :unprocessable_entity }
+        format.html { render :action => "edit" }
       end
     end
   end
@@ -57,7 +78,7 @@ class ChoresController < ApplicationController
     @chore.destroy
     respond_to do |format|
       format.html { redirect_to chores_url, notice: 'Chore was successfully destroyed.' }
-      format.json { head :no_content }
+      format.js
     end
   end
 
